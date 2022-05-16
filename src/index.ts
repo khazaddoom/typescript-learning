@@ -120,25 +120,46 @@
 
 // if dir =
 
-class RangeValidationBase {
-    constructor(private start : number, private end : number) { }
-    protected RangeCheck(value : number) : boolean {
-        return value >= this.start && value <= this.end;
-    }
-    protected GetNumber(value : string) : number {
-       return new Number(value).valueOf();
-    } 
+// class RangeValidationBase {
+//     constructor(private start : number, private end : number) { }
+//     protected RangeCheck(value : number) : boolean {
+//         return value >= this.start && value <= this.end;
+//     }
+//     protected GetNumber(value : string) : number {
+//        return new Number(value).valueOf();
+//     } 
+// }
+
+
+// class UnionValidation extends RangeValidationBase {
+//     IsRangeCheck(value: string | number): boolean {
+//         if (typeof value === "number") {
+//             return this.RangeCheck(value);
+//         }
+//         return this.RangeCheck(this.GetNumber(value));
+//     }
+// }
+
+// const t = new UnionValidation(100, 200);
+// console.log(t.IsRangeCheck('100'))
+
+class Margin {
+    Left: number = 0;
+    Top: number = 0;
 }
 
+class Grid {
+    Width: number = 0;
+    Height: number = 0;
+}
 
-class UnionValidation extends RangeValidationBase {
-    IsRangeCheck(value: string | number): boolean {
-        if (typeof value === "number") {
-            return this.RangeCheck(value);
-        }
-        return this.RangeCheck(this.GetNumber(value));
+type IntersectionGridMargin = Grid & Margin;
+
+function ConsolidatedGrid(grid: Grid, margin: Margin): IntersectionGridMargin {
+    return {
+        ...grid,
+        ...margin
     }
 }
 
-const t = new UnionValidation(100, 200);
-console.log(t.IsRangeCheck('100'))
+console.log(ConsolidatedGrid(new Grid(), new Margin()))
